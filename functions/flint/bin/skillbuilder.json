@@ -1,0 +1,11 @@
+{
+   "intents": [
+      {
+         "name": "ClusterStatus",
+         "samples": [
+            "cluster status"
+         ]
+      }
+   ],
+   "types": []
+}
