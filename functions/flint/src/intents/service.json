@@ -1,0 +1,22 @@
+{
+  "apiVersion": "v1",
+  "kind": "Service",
+  "metadata": {
+    "labels": {
+      "run": "game-unknown"
+    },
+    "name": "game-unknown"
+  },
+  "spec": {
+    "selector": {
+      "run": "game-unknown"
+    },
+    "ports": [
+      {
+        "protocol": "TCP",
+        "port": 80,
+        "targetPort": 80
+      }
+    ]
+  }
+}
