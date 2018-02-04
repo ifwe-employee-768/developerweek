@@ -1,37 +1,12 @@
 import client from './kubeclient'
 import {app} from 'alexa-app';
+import fileClient from './fileClient'
 
 declare function require(path: string): any;
 
 // Game input
 let game = "docker-web-game";
 let image = "dubuqingfeng/docker-web-game";
-
-let gameData = {
-
-}
-
-// Deployment
-let deploymentObject = require('http://18.144.24.30:8000/k8s/templates/deployment.json');
-deploymentObject.metadata.labels.run = game;
-deploymentObject.metadata.name = game;
-deploymentObject.spec.selector.matchLabels.run = game;
-deploymentObject.spec.template.metadata.labels.run = game;
-deploymentObject.spec.template.spec.containers[0].image += image;
-deploymentObject.spec.template.spec.containers[0].name = game;
-
-// Service
-let serviceObject = require('http://18.144.24.30:8000/k8s/templates/service.json');
-serviceObject.metadata.labels.run = game;
-serviceObject.metadata.name = game;
-serviceObject.spec.selector.run = game;
-
-
-// Ingresses
-let ingressObject = require('http://18.144.24.30:8000/k8s/templates/ingress.json');
-ingressObject.metadata.name = game;
-ingressObject.spec.rules[0].host = game + ".hearthbeans.tech";
-ingressObject.spec.rules[0].http.paths[0].backend.serviceName = game;
 
 export default function (app: app) {
     app.intent('DeployContainerIntent', {
@@ -45,9 +20,36 @@ export default function (app: app) {
         function (req, res) {
             var word = req.slot('WORD');
             res.say("Deploying " + word);
-            return client.createDeployment(deploymentObject, serviceObject, ingressObject)
+            let deploymentObject, serviceObject, ingressObject;
+
+            return fileClient.getFile("deployment.json")
+                .then((dep) => {
+                    deploymentObject = dep;
+                    deploymentObject.metadata.labels.run = game;
+                    deploymentObject.metadata.name = game;
+                    deploymentObject.spec.selector.matchLabels.run = game;
+                    deploymentObject.spec.template.metadata.labels.run = game;
+                    deploymentObject.spec.template.spec.containers[0].image += image;
+                    deploymentObject.spec.template.spec.containers[0].name = game;
+
+                    return fileClient.getFile("service.json");
+                })
+                .then((serv) => {
+                    serviceObject = serv;
+                    serviceObject.metadata.labels.run = game;
+                    serviceObject.metadata.name = game;
+                    serviceObject.spec.selector.run = game;
+
+                    return fileClient.getFile("ingress.json")
+                })
+                .then((ing) => {
+                    ingressObject = ing;
+                    ingressObject.metadata.name = game;
+                    ingressObject.spec.rules[0].host = game + ".hearthbeans.tech";
+                    ingressObject.spec.rules[0].http.paths[0].backend.serviceName = game;
+                })
+                .then(() => client.createDeployment(deploymentObject, serviceObject, ingressObject))
                 .then(() => res.say("Deployment accepted").send())
                 .catch((err) => res.say(err).send())
-        }
-    );
+        });
 }
