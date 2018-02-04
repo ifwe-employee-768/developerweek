@@ -54,6 +54,12 @@ class KubeClient {
         return toPromise(ext.namespaces.deploy(name).get)
     }
 
+    createDeployment(deployment, service, ingress) {
+        return toPromise2(ext.namespaces.deployments.post,{ body: deployment })
+            .then(() => toPromise2(apiClient.namespaces.services.post,{ body: service }))
+            .then(() => toPromise2(ext.namespaces.ingresses.post, { body: ingress}));
+    }
+
     scaleUp(newValue) {
         let deployments = ext.namespaces.deploy('hello-server');
         return toPromise2(deployments.patch,{

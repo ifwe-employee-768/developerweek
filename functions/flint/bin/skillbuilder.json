@@ -22,12 +22,17 @@
          {
             "name": "RepeatIntent",
             "samples": [
-               "repeat {VALUE}"
+               "repeat {WORD} {VALUE}"
             ],
             "slots": [
                {
                   "name": "VALUE",
                   "type": "AMAZON.NUMBER",
+                  "samples": []
+               },
+               {
+                  "name": "WORD",
+                  "type": "deployment",
                   "samples": []
                }
             ]
@@ -55,6 +60,19 @@
                {
                   "name": "CODE",
                   "type": "AMAZON.FOUR_DIGIT_NUMBER",
+                  "samples": []
+               }
+            ]
+         },
+         {
+            "name": "DeployContainerIntent",
+            "samples": [
+               "deploy {WORD}"
+            ],
+            "slots": [
+               {
+                  "name": "WORD",
+                  "type": "deployment",
                   "samples": []
                }
             ]
