@@ -1,7 +1,8 @@
 
 import Client from './kubeclient'
+import {app} from 'alexa-app';
 
-export default function(app) {
+export default function(app: app) {
     app.intent('ScaleUpIntent', {
             'slots': {
                 'VALUE': 'AMAZON.NUMBER'
@@ -13,9 +14,9 @@ export default function(app) {
         function(req, res) {
             var value = req.slot('VALUE');
             res.say("Scaling to " + value + " replicas");
-            Client.scaleUp(parseInt(value)).then(result => {
-                return res.say("accepted").send()
-            })
+            return Client.scaleUp(parseInt(value)).then(() =>
+                res.say("Request Accepted").send()
+            )
         }
     );
 }

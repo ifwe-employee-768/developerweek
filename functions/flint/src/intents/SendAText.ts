@@ -16,9 +16,9 @@ export default function(flint: app) {
             "utterances": ["authenticate me"]
         },
         function(request, response) {
-            var phoneNumber = "13143153242"; // Your end user’s phone number, as a string of digits without spaces or
+            var phoneNumber = "15105054390"; // Your end user’s phone number, as a string of digits without spaces or
             // punctuation, beginning with the country dialing code (for example, “1” for North America)
-            var message = "You're scheduled for a dentist appointment at 2:30PM.";
+            var message = "Your code: 1234";
             var messageType = "ARN"; // ARN = Alerts, Reminders, and Notifications; OTP = One time password; MKT = Marketing
 
             telesign.sms.message(function(err, reply){

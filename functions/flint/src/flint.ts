@@ -12,12 +12,14 @@ import sendAText from './intents/SendAText'
 import getDeployments from './intents/GetDeployments'
 import repeat from './intents/Parrot'
 import scaleUp from './intents/ScaleUp'
+import verifyCode from './intents/Verify'
 
 clusterStatus(flint);
 sendAText(flint);
 getDeployments(flint);
 repeat(flint);
 scaleUp(flint);
+verifyCode(flint);
 
 
 export default flint

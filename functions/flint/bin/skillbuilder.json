@@ -45,6 +45,19 @@
                   "samples": []
                }
             ]
+         },
+         {
+            "name": "VerifyCode",
+            "samples": [
+               "verify my code CODE"
+            ],
+            "slots": [
+               {
+                  "name": "CODE",
+                  "type": "AMAZON.FOUR_DIGIT_NUMBER",
+                  "samples": []
+               }
+            ]
          }
       ],
       "types": [
