@@ -2,17 +2,19 @@
 export default function (app) {
     app.intent('RepeatIntent', {
             'slots': {
-                'VALUE': 'AMAZON.NUMBER'
+                'VALUE': 'AMAZON.NUMBER',
+                'WORD': 'deployment',
             },
             'utterances': [
-                'repeat {-|VALUE}'
+                'repeat {-|WORD} {-|VALUE}'
             ]
         },
         function (req, res) {
             var value = req.slot('VALUE');
-            res.say("You said " + value);
+            var word = req.slot('WORD');
+            res.say("You said " + word);
             for (var i = 0; i < value; i++) {
-                res.say("I repeat, you said" + value);
+                res.say("I repeat, you said" + word);
             }
         }
     );
