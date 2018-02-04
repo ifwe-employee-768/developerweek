@@ -1,4 +1,5 @@
 import {Core, Extensions} from 'kubernetes-client'
+import parser from './nginx-log-parser'
 
 const apiClient = new Core({
     url: 'https://104.154.69.40',
@@ -62,6 +63,21 @@ class KubeClient {
                 spec: { replicas: newValue}
             }
         })
+    }
+
+    getStream(logCount) {
+        let stream = apiClient.ns.po('v1-nginx-nginx-ingress-controller-594cff7fd7-r942x').log.getStream();
+        let chunkStr = "";
+        stream.on('data', chunk => {
+            chunkStr += chunk.toString();
+        });
+        stream.on('end', () => {
+            let log = chunkStr.split('\n')
+            log = log.map(item=>parser(item)).filter(item=>(item['user_agent']!=="\"Prometheus/1.8.2\"" ))
+            if(logCount){log = log.slice(log.length - logCount)}
+            return toPromise(log);
+        })
+
     }
 }
 
