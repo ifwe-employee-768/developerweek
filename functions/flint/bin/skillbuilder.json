@@ -1,11 +1,70 @@
 {
-   "intents": [
-      {
-         "name": "ClusterStatus",
-         "samples": [
-            "cluster status"
-         ]
-      }
-   ],
-   "types": []
+   "languageModel": {
+      "intents": [
+         {
+            "name": "ClusterStatus",
+            "samples": [
+               "cluster status"
+            ]
+         },
+         {
+            "name": "AuthenticateMe",
+            "samples": [
+               "authenticate me"
+            ]
+         },
+         {
+            "name": "GetDeployment",
+            "samples": [
+               "get deployments"
+            ]
+         },
+         {
+            "name": "RepeatIntent",
+            "samples": [
+               "repeat {VALUE}"
+            ],
+            "slots": [
+               {
+                  "name": "VALUE",
+                  "type": "AMAZON.NUMBER",
+                  "samples": []
+               }
+            ]
+         },
+         {
+            "name": "ScaleUpIntent",
+            "samples": [
+               "scale up to {VALUE}",
+               "scale down to {VALUE}"
+            ],
+            "slots": [
+               {
+                  "name": "VALUE",
+                  "type": "AMAZON.NUMBER",
+                  "samples": []
+               }
+            ]
+         }
+      ],
+      "types": [
+         {
+            "name": "deployment",
+            "values": [
+               {
+                  "id": "hello-server",
+                  "name": {
+                     "value": "hello-server",
+                     "synonyms": [
+                        "helloserver",
+                        "hello server",
+                        "woofmeister"
+                     ]
+                  }
+               }
+            ]
+         }
+      ],
+      "invocationName": "captain flint"
+   }
 }

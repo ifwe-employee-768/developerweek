@@ -1,12 +1,26 @@
 import Client from '../../src/intents/kubeclient'
+import 'mocha'
 
 describe("Client", () => {
     it('should make a call', function () {
-        function print(err, result) {
-            console.log(JSON.stringify(err || result, null, 2));
-        }
+        Client.getNodes().then((result) => {
+            console.log(result)
+        })
+    });
 
-        Client.nodes.get(print)
+    it('should get services', function () {
+        Client.getServices().then((result) => {
+            console.log(result)
+        })
+    });
 
+    it('should get deployments', function () {
+        Client.getDeployments("hello-server").then((result) => {
+            console.log(result)
+        })
+    });
+
+    it('should get scaleUp', function () {
+        Client.scaleUp(1);
     });
 });

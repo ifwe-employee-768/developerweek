@@ -6,15 +6,10 @@ export default function(flint: app) {
       "utterances": ["cluster status"]
     },
     function(request, response) {
-      Client.nodes.get((err, reply) => {
-          if(err) {
-              response.say("it broke").send()
-          } else {
-              let nodeCount = reply.items.length;
-              response.say("You have " + nodeCount + " running").send();
-          }
-      });
-      return false;
+      return Client.getNodes().then((result) => {
+          let nodeCount = result.items.length;
+          return response.say("You have " + nodeCount + " nodes running").send();
+      })
     }
   );
 }
