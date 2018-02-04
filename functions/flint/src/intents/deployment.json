@@ -1,0 +1,49 @@
+{
+  "apiVersion": "extensions/v1beta1",
+  "kind": "Deployment",
+  "metadata": {
+    "labels": {
+      "run": "game-unknown"
+    },
+    "name": "game-unknown"
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "run": "game-unknown"
+      }
+    },
+    "strategy": {
+      "rollingUpdate": {
+        "maxSurge": 1,
+        "maxUnavailable": 1
+      },
+      "type": "RollingUpdate"
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "run": "game-unknown"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "image": "registry.hub.docker.com/",
+            "imagePullPolicy": "IfNotPresent",
+            "name": "game-unknown",
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ],
+            "terminationMessagePath": "/dev/termination-log",
+            "terminationMessagePolicy": "File"
+          }
+        ]
+      }
+    }
+  }
+}
