@@ -23,4 +23,10 @@ describe("Client", () => {
     it('should get scaleUp', function () {
         Client.scaleUp(1);
     });
+
+    it('should get stream', function () {
+        Client.getStream(1000).then((cat) => {
+            console.log(cat)
+        });
+    });
 });

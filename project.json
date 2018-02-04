@@ -3,6 +3,6 @@
   "description": "Flint Functions",
   "runtime": "nodejs6.10",
   "memory": 128,
-  "timeout": 5,
+  "timeout": 20,
   "role": "arn:aws:iam::641739717240:role/service-role/lambda"
 }

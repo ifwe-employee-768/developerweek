@@ -76,6 +76,13 @@
                   "samples": []
                }
             ]
+         },
+         {
+            "name": "ApplicationStatus",
+            "samples": [
+               "application status ",
+               "app status"
+            ]
          }
       ],
       "types": [

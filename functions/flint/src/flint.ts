@@ -14,6 +14,7 @@ import repeat from './intents/Parrot'
 import scaleUp from './intents/ScaleUp'
 import verifyCode from './intents/Verify'
 import deployContainer from './intents/CreateDeployment'
+import appStatus from './intents/ApplicationStatus'
 
 clusterStatus(flint);
 sendAText(flint);
@@ -22,6 +23,7 @@ repeat(flint);
 scaleUp(flint);
 verifyCode(flint);
 deployContainer(flint);
+appStatus(flint);
 
 
 export default flint

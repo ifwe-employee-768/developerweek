@@ -1,5 +1,9 @@
 import {Core, Extensions} from 'kubernetes-client'
-import parser from './nginx-log-parser'
+import * as nginxParse from 'nginx-log-parser'
+
+var source = '$http_client_ip - [$remote_addr] - - [$time_local] "$request" $status $body_bytes_sent "referer" "$user_agent" $body_bytes $request_time $httpRequester $ip $byte $response_time $respose_code';
+
+var parser = nginxParse(source);
 
 const apiClient = new Core({
     url: 'https://104.154.69.40',
@@ -72,17 +76,21 @@ class KubeClient {
     }
 
     getStream(logCount) {
-        let stream = apiClient.ns.po('v1-nginx-nginx-ingress-controller-594cff7fd7-r942x').log.getStream();
+        let stream = apiClient.ns('nginx-ingress').po('v1-nginx-nginx-ingress-controller-594cff7fd7-r942x').log.getStream({});
         let chunkStr = "";
-        stream.on('data', chunk => {
-            chunkStr += chunk.toString();
-        });
-        stream.on('end', () => {
-            let log = chunkStr.split('\n')
-            log = log.map(item=>parser(item)).filter(item=>(item['user_agent']!=="\"Prometheus/1.8.2\"" ))
-            if(logCount){log = log.slice(log.length - logCount)}
-            return toPromise(log);
+
+        return new Promise(function(resolve, reject){
+            stream.on('data', chunk => {
+                chunkStr += chunk.toString();
+            });
+            stream.on('end', () => {
+                let log = chunkStr.split('\n');
+                if(logCount){log = log.slice(log.length - logCount)}
+                log = log.map(item=>parser(item)).filter(item=>(item['user_agent']!=="\"Prometheus/1.8.2\"" ));
+                resolve(log)
+            })
         })
+
 
     }
 }
