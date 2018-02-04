@@ -8,6 +8,12 @@ declare function require(path: string): any;
 let game = "docker-web-game";
 let image = "dubuqingfeng/docker-web-game";
 
+const games = {
+    "docker-web-game": "dubuqingfeng/docker-web-game",
+    "game-2048": "blackicebird/2048",
+    "pacman": "nbaillie/pacman",
+}
+
 export default function (app: app) {
     app.intent('DeployContainerIntent', {
             'slots': {
